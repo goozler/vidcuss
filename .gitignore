@@ -28,4 +28,7 @@ vidcuss-*.tar
 /priv/static/
 
 # Ignore language server build dir
-.elixir_ls/
+/.elixir_ls/
+
+/node_modules/
+/.cache
