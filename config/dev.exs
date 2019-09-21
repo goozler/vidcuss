@@ -2,10 +2,10 @@ use Mix.Config
 
 # Configure your database
 config :vidcuss, Vidcuss.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "vidcuss_dev",
-  hostname: "localhost",
+  username: System.get_env("DB_USERNAME", "postgres"),
+  password: System.get_env("DB_PASSWORD", "postgres"),
+  database: System.get_env("DB_NAME", "vidcuss_dev"),
+  hostname: System.get_env("DB_HOST", "localhost"),
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

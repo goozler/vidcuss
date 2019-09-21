@@ -2,10 +2,10 @@ use Mix.Config
 
 # Configure your database
 config :vidcuss, Vidcuss.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: System.get_env("DB_USERNAME", "postgres"),
+  password: System.get_env("DB_PASSWORD", "postgres"),
   database: "vidcuss_test",
-  hostname: "localhost",
+  hostname: System.get_env("DB_HOST", "localhost"),
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,
