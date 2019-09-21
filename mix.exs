@@ -36,6 +36,7 @@ defmodule Vidcuss.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev], runtime: false},
       {:ecto_sql, "~> 3.1"},
       {:gettext, "~> 0.11"},
