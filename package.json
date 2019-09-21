@@ -7,7 +7,13 @@
   "author": "Alex Krutov",
   "license": "MIT",
   "scripts": {
-    "watch": "cp -R assets/static/* priv/static/ && parcel watch assets/js/index.tsx --out-dir priv/static/js --public-url /js"
+    "copy-static": "cp -R assets/static/* priv/static/",
+    "watch": "yarn copy-static && parcel watch assets/js/index.tsx --out-dir priv/static/js --public-url /js",
+    "build": "yarn copy-static && parcel build assets/js/index.tsx --out-dir priv/static/js --public-url /js",
+    "lint": "eslint assets/js/*",
+    "check-types": "tsc",
+    "check-formatting": "prettier -c assets/js/*",
+    "commit-lint": "commitlint to=HEAD"
   },
   "dependencies": {
     "react": "^16.9.0",
@@ -15,6 +21,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
     "@typescript-eslint/eslint-plugin": "1.x",
@@ -28,6 +36,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "1.x",
+    "husky": "^3.0.5",
     "parcel-bundler": "^1.12.3",
     "parcel-plugin-stdin": "^0.1.1",
     "prettier": "1.18.2",
