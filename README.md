@@ -1,3 +1,5 @@
+![CI](https://github.com/goozler/vidcuss/workflows/CI/badge.svg)
+
 # Vidcuss
 
 To start your Phoenix server:
