@@ -22,6 +22,7 @@ defmodule Vidcuss.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Vidcuss.DataCase
+      import Vidcuss.Factory
     end
   end
 

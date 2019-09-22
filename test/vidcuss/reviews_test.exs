@@ -1,6 +1,11 @@
 defmodule Vidcuss.ReviewsTest do
   use Vidcuss.DataCase, async: true
 
+  test "list videos" do
+    insert_list(3, :video)
+    assert 3 == Vidcuss.Reviews.list_videos() |> Enum.count()
+  end
+
   test "create a video" do
     invalid_params = %{}
 
