@@ -13,6 +13,16 @@ defmodule VidcussWeb.Router do
     plug :accepts, ["json"]
   end
 
+  forward("/graphql", Absinthe.Plug, schema: VidcussWeb.Schema)
+
+  if Mix.env() == :dev do
+    forward(
+      "/graphiql",
+      Absinthe.Plug.GraphiQL,
+      schema: VidcussWeb.Schema
+    )
+  end
+
   scope "/", VidcussWeb do
     pipe_through :browser
 

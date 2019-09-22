@@ -10,7 +10,7 @@ defmodule Vidcuss do
   Use a uuid as a default primary key
 
   ## Example
-      use Prosapient, :schema
+      use Vidcuss, :schema
   """
   def schema do
     quote do
