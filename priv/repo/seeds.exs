@@ -1,11 +1,11 @@
-# Script for populating the database. You can run it as:
-#
-#     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     Vidcuss.Repo.insert!(%Vidcuss.SomeSchema{})
-#
-# We recommend using the bang functions (`insert!`, `update!`
-# and so on) as they will fail if something goes wrong.
+{:ok, _} =
+  Vidcuss.Reviews.create_video(%{
+    title: "b1t",
+    url: "https://youtu.be/Uu0_cltQadA"
+  })
+
+{:ok, _} =
+  Vidcuss.Reviews.create_video(%{
+    title: "goozler",
+    url: "https://youtu.be/T7KeT3lSmR0"
+  })
