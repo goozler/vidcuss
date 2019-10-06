@@ -2,6 +2,10 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "~*": ["./assets/js/*"]
+    },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
@@ -15,6 +19,5 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "es5"
-  },
-  "include": ["assets/js"]
+  }
 }

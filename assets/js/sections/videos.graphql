@@ -1,0 +1,17 @@
+fragment Video on Video {
+  id
+  title
+  url
+}
+
+query listVideos {
+  videos {
+    ...Video
+  }
+}
+
+mutation createVideo($title: String, $url: String) {
+  createVideo(title: $title, url: $url) {
+    ...Video
+  }
+}
