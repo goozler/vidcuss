@@ -2,7 +2,7 @@ overwrite: true
 schema: "http://localhost:4000/graphql"
 documents: "assets/js/**/*.graphql"
 generates:
-  assets/js/graphql.tsx:
+  assets/js/graphql/interface.tsx:
     plugins:
       - "typescript"
       - "typescript-operations"
@@ -14,3 +14,6 @@ generates:
       transformUnderscore: true
       typesPrefix: I
       avoidOptionals: true
+  assets/js/graphql/introspection-result.ts:
+    plugins:
+      - fragment-matcher

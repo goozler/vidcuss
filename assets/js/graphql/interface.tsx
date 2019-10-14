@@ -17,7 +17,7 @@ export type Scalars = {
 export type IRootMutationType = {
   __typename?: "RootMutationType"
   /** Create a video */
-  createVideo: Maybe<IVideo>
+  createVideo: Maybe<IVideoPayload>
 }
 
 export type IRootMutationTypeCreateVideoArgs = {
@@ -31,11 +31,84 @@ export type IRootQueryType = {
   videos: Array<IVideo>
 }
 
+/**
+ * Validation messages are returned when mutation input does not meet the requirements.
+ * While client-side validation is highly recommended to provide the best User Experience,
+ * All inputs will always be validated server-side.
+ *
+ * Some examples of validations are:
+ *
+ * * Username must be at least 10 characters
+ * * Email field does not contain an email address
+ * * Birth Date is required
+ *
+ * While GraphQL has support for required values, mutation data fields are always
+ * set to optional in our API. This allows 'required field' messages
+ * to be returned in the same manner as other validations. The only exceptions
+ * are id fields, which may be required to perform updates or deletes.
+ **/
+export type IValidationMessage = {
+  __typename?: "ValidationMessage"
+  /** A unique error code for the type of validation used. */
+  code: Scalars["String"]
+  /**
+   * The input field that the error applies to. The field can be used to
+   * identify which field the error message should be displayed next to in the
+   * presentation layer.
+   *
+   * If there are multiple errors to display for a field, multiple validation
+   * messages will be in the result.
+   *
+   * This field may be null in cases where an error cannot be applied to a specific field.
+   **/
+  field: Maybe<Scalars["String"]>
+  /**
+   * A friendly error message, appropriate for display to the end user.
+   *
+   * The message is interpolated to include the appropriate variables.
+   *
+   * Example: `Username must be at least 10 characters`
+   *
+   * This message may change without notice, so we do not recommend you match against the text.
+   * Instead, use the *code* field for matching.
+   **/
+  message: Maybe<Scalars["String"]>
+  /** A list of substitutions to be applied to a validation message template */
+  options: Maybe<Array<Maybe<IValidationOption>>>
+  /**
+   * A template used to generate the error message, with placeholders for option substiution.
+   *
+   * Example: `Username must be at least {count} characters`
+   *
+   * This message may change without notice, so we do not recommend you match against the text.
+   * Instead, use the *code* field for matching.
+   **/
+  template: Maybe<Scalars["String"]>
+}
+
+export type IValidationOption = {
+  __typename?: "ValidationOption"
+  /** The name of a variable to be subsituted in a validation message template */
+  key: Scalars["String"]
+  /** The value of a variable to be substituted in a validation message template */
+  value: Scalars["String"]
+}
+
 export type IVideo = {
   __typename?: "Video"
   id: Scalars["ID"]
   title: Scalars["String"]
   url: Scalars["String"]
+}
+
+export type IVideoPayload = {
+  __typename?: "VideoPayload"
+  /** A list of failed validations. May be blank or null if mutation succeeded. */
+  messages: Maybe<Array<Maybe<IValidationMessage>>>
+  /** The object created/updated/deleted by the mutation. May be null if mutation failed. */
+  result: Maybe<IVideo>
+  /** Indicates if the mutation completed successfully or not.  */
+  successful: Scalars["Boolean"]
 }
 
 export type IVideoFragment = { __typename?: "Video" } & Pick<IVideo, "id" | "title" | "url">
@@ -52,7 +125,14 @@ export type ICreateVideoMutationVariables = {
 }
 
 export type ICreateVideoMutation = { __typename?: "RootMutationType" } & {
-  createVideo: Maybe<{ __typename?: "Video" } & IVideoFragment>
+  createVideo: Maybe<
+    { __typename?: "VideoPayload" } & Pick<IVideoPayload, "successful"> & {
+        result: Maybe<{ __typename?: "Video" } & IVideoFragment>
+        messages: Maybe<
+          Array<Maybe<{ __typename?: "ValidationMessage" } & Pick<IValidationMessage, "field" | "message">>>
+        >
+      }
+  >
 }
 
 export const VideoFragmentDoc = gql`
@@ -110,7 +190,14 @@ export type ListVideosQueryResult = ApolloReactCommon.QueryResult<IListVideosQue
 export const CreateVideoDocument = gql`
   mutation createVideo($title: String, $url: String) {
     createVideo(title: $title, url: $url) {
-      ...Video
+      successful
+      result {
+        ...Video
+      }
+      messages {
+        field
+        message
+      }
     }
   }
   ${VideoFragmentDoc}

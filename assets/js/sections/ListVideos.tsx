@@ -1,5 +1,5 @@
 import React from "react"
-import { useListVideosQuery } from "~/graphql"
+import { useListVideosQuery } from "~/graphql/interface"
 
 const ListVideos = () => {
   const { data, loading } = useListVideosQuery()

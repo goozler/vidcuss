@@ -1,6 +1,7 @@
 defmodule VidcussWeb.Schema do
   use Absinthe.Schema
-
+  import AbsintheErrorPayload.Payload
+  import_types(AbsintheErrorPayload.ValidationMessageTypes)
   import_types(VidcussWeb.Schema.Types.Reviews)
 
   query do
@@ -12,10 +13,11 @@ defmodule VidcussWeb.Schema do
 
   mutation do
     @desc "Create a video"
-    field :create_video, :video do
+    field :create_video, :video_payload do
       arg(:title, :string)
       arg(:url, :string)
       resolve(&VidcussWeb.Resolvers.Reviews.create_video/3)
+      middleware(&build_payload/2)
     end
   end
 end
