@@ -5,5 +5,9 @@ defmodule VidcussWeb.Resolvers.Reviews do
 
   def create_video(_parent, args, _resolution) do
     Vidcuss.Reviews.create_video(args)
+    |> case do
+      {:ok, video} -> {:ok, video}
+      {:error, %Ecto.Changeset{} = changeset} -> {:ok, changeset}
+    end
   end
 end

@@ -1,6 +1,6 @@
 import React from "react"
 import { Field, Form, Formik, FormikActions } from "formik"
-import { IListVideosQuery, ListVideosDocument, useCreateVideoMutation } from "~/graphql"
+import { IListVideosQuery, IVideoFragment, ListVideosDocument, useCreateVideoMutation } from "~/graphql/interface"
 
 interface FormValues {
   title: string
@@ -17,19 +17,23 @@ const NewVideoForm = () => {
         createVideo({
           variables: values,
           update: (cache, { data }) => {
+            const response = data!.createVideo!
+            if (!response.successful) return
+
             const cachedData = cache.readQuery<IListVideosQuery>({
               query: ListVideosDocument,
             })
 
-            if (cachedData && cachedData.videos && data && data.createVideo) {
-              cache.writeQuery({
-                query: ListVideosDocument,
-                data: { videos: [...cachedData.videos, data.createVideo] },
-              })
-            }
+            const newVideo = response.result as IVideoFragment
+
+            cache.writeQuery({
+              query: ListVideosDocument,
+              data: { videos: [...cachedData!.videos, newVideo] },
+            })
           },
         })
-          .then(() => {
+          .then(({ data }) => {
+            if (!data!.createVideo!.successful) return
             actions.resetForm()
           })
           .finally(() => {

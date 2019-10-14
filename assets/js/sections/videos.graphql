@@ -12,6 +12,13 @@ query listVideos {
 
 mutation createVideo($title: String, $url: String) {
   createVideo(title: $title, url: $url) {
-    ...Video
+    successful
+    result {
+      ...Video
+    }
+    messages {
+      field
+      message
+    }
   }
 }

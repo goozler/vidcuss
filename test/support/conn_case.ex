@@ -20,6 +20,7 @@ defmodule VidcussWeb.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       import Vidcuss.Factory
+      import AbsintheErrorPayload.TestHelper
       alias VidcussWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
