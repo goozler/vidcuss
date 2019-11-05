@@ -1,0 +1,2 @@
+export DB_USERNAME="vidcuss"
+export DB_PASSWORD="vidcuss"

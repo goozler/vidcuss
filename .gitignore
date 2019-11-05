@@ -34,3 +34,4 @@ vidcuss-*.tar
 /.cache
 /priv/plts/*.plt
 /priv/plts/*.plt.hash
+/.envrc
